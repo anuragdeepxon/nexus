@@ -25,7 +25,8 @@
  <table style="width: 100%; max-width: 600px; margin: 0 auto; border-collapse: collapse; background-color: #f5f5f5;">
   <tr>
    <td style="background-color: antiquewhite; padding: 20px; text-align: center;">
-    <img src="https://orionesolutions.com/wp-content/themes/astra/assets/images/orion-esolutions-logo.svg" alt="Orion eSolutions Inc." style="display: block;height: 30px; max-width: 100%;">
+    <!-- <img src="https://orionesolutions.com/wp-content/themes/astra/assets/images/orion-esolutions-logo.svg" alt="Orion eSolutions Inc." style="display: block;height: 30px; max-width: 100%;">
+ -->
    </td>
   </tr>
   <tr>

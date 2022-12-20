@@ -9,12 +9,26 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use App\Mail\SendInsights;
+use Illuminate\Support\Facades\Mail;
 
 class FetchPageSpeedInsightsData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $url;
+    public  $clients;
+
+    public $finalData;
+
+    public $poor_round_color;
+    public $poor_text_color;
+
+    public $medium_round_color;
+    public $medium_text_color;
+
+    public $good_round_color;
+    public $good_text_color;
 
     /**
      * Create a new job instance.
@@ -22,7 +36,7 @@ class FetchPageSpeedInsightsData implements ShouldQueue
      * @param string $url
      * @return void
      */
-    public function __construct(string $clients)
+    public function __construct(array $clients)
     {
         $this->clients = $clients;
         $this->finalData = null;
@@ -54,8 +68,12 @@ class FetchPageSpeedInsightsData implements ShouldQueue
             $desktopInsights = $this->getDesktopInsights($pageSpeedInsightsService, $client['url']);
             Log::info('finalData :', array($this->finalData));
 
+            Mail::to($client['mail'])->send(new SendInsights($this->finalData));
+
             // Send mail $client['mail'] 
         }
+
+        Log::info('COMPLETED JOB');
     }
 
 

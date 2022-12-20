@@ -13,14 +13,16 @@ class SendInsights extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $data;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -31,7 +33,7 @@ class SendInsights extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Send Insights',
+            subject: 'Web Insights',
         );
     }
 
@@ -43,7 +45,10 @@ class SendInsights extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'insights.mail',
+            with: [
+                'data' => $this->data,
+            ],
         );
     }
 

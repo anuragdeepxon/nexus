@@ -27,7 +27,6 @@ class PageSpeedInsightsController extends Controller
 
     public function show(Request $request, PageSpeedInsightsService $pageSpeedInsightsService)
     {
-
         $clients = [
             [
                 'url' => 'https://kabhain.in',
@@ -40,17 +39,14 @@ class PageSpeedInsightsController extends Controller
             ],
         ];
 
-        foreach ($this->clients as $client) {
+        foreach ($clients as $client) {
             $mobileInsights = $this->getMobileInsights($pageSpeedInsightsService, $client['url']);
             $desktopInsights = $this->getDesktopInsights($pageSpeedInsightsService, $client['url']);
         }
 
-        // $mobileInsights = $this->getMobileInsights($pageSpeedInsightsService);
-        // $desktopInsights = $this->getDesktopInsights($pageSpeedInsightsService);
-
         // // return $this->finalData;
 
-        // return view('mail', ['data' => $this->finalData]);
+        return view('insights.mail', ['data' => $this->finalData]);
     }
 
 

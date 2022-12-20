@@ -31,7 +31,7 @@ class FetchPageSpeedInsightsCommand extends Command
         // Get website urls and respective mail 
         $clients = [
             [
-                'url' => 'https://kabhain.in',
+                'url' => 'https://kabhai.in',
                 'mail' => 'anuragdeep.xon@gmail.com'
             ],
 
