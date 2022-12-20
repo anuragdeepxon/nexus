@@ -28,9 +28,20 @@ class FetchPageSpeedInsightsCommand extends Command
      */
     public function handle()
     {
-        $url = 'http://kabhai.in';
+        // Get website urls and respective mail 
+        $clients = [
+            [
+                'url' => 'https://kabhain.in',
+                'mail' => 'anuragdeep.xon@gmail.com'
+            ],
 
-        FetchPageSpeedInsightsData::dispatch($url)->onQueue('high');
+            [
+                'url' => 'https://anuragdeep.com',
+                'mail' => 'anuragdeep.xon@gmail.com'
+            ],
+        ];
+
+        FetchPageSpeedInsightsData::dispatch($clients)->onQueue('high');
 
         return Command::SUCCESS;
     }
