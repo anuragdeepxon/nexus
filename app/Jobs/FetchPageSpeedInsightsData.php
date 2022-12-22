@@ -10,7 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SendInsights;
+use App\Notifications\SendInsights as NotificationsSendInsights;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class FetchPageSpeedInsightsData implements ShouldQueue
 {
@@ -29,7 +31,7 @@ class FetchPageSpeedInsightsData implements ShouldQueue
 
     public $good_round_color;
     public $good_text_color;
-
+    
     /**
      * Create a new job instance.
      *
@@ -62,15 +64,14 @@ class FetchPageSpeedInsightsData implements ShouldQueue
 
     public function handle(PageSpeedInsightsService $pageSpeedInsightsService)
     {
-
         foreach ($this->clients as $client) {
-            $mobileInsights = $this->getMobileInsights($pageSpeedInsightsService, $client['url']);
-            $desktopInsights = $this->getDesktopInsights($pageSpeedInsightsService, $client['url']);
+            $this->finalData = null;
+            $this->getMobileInsights($pageSpeedInsightsService, $client['url']);
+            $this->getDesktopInsights($pageSpeedInsightsService, $client['url']);
+
             Log::info('finalData :', array($this->finalData));
 
-            Mail::to($client['mail'])->send(new SendInsights($this->finalData));
-
-            // Send mail $client['mail'] 
+            Notification::route('mail', $client['mail'])->notify(new NotificationsSendInsights($this->finalData));
         }
 
         Log::info('COMPLETED JOB');

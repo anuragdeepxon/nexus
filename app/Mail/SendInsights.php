@@ -45,7 +45,7 @@ class SendInsights extends Mailable
     public function content()
     {
         return new Content(
-            view: 'insights.mail',
+            markdown: 'insights.mail',
             with: [
                 'data' => $this->data,
             ],
