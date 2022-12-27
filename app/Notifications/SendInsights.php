@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SendInsights extends Notification
 {
@@ -21,6 +23,8 @@ class SendInsights extends Notification
     public function __construct($data)
     {
         $this->data = $data;
+        $this->data['mobile_result_url'] = public_path($data['mobile_result']);
+        $this->data['desktop_result_url'] = public_path($data['desktop_result']);
     }
 
     /**
@@ -45,6 +49,8 @@ class SendInsights extends Notification
         return (new MailMessage)
             ->theme('custom')
             ->subject('Orion | Web speed insights')
+            ->attach($this->data['mobile_result_url'])
+            ->attach($this->data['desktop_result_url'])
             ->markdown('insights.mail', ['data' => $this->data]);
     }
 
